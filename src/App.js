@@ -1,38 +1,39 @@
 import { Component } from "react";
 
-import logo from "./logo.svg";
 import "./App.css";
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      monsters:[
-        {id:1,name:"abc"},
-        {id:2,name:"def"},
-        {id:3,name:"ghi"},
-      ],
+      monsters: [],
+      searchField:""
     };
   }
 
+  componentDidMount() {
+    fetch("https://jsonplaceholder.typicode.com/users")
+      .then((response) => response.json())
+      .then((users) => this.setState({ monsters: users }));
+  }
+
   render() {
+
+    const filteredMonsters=this.state.monsters.filter((monster)=>
+      monster.name.toLowerCase().includes(this.state.searchField)
+    )
+
     return (
       <div className="App">
         <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
+          <input type="search" onChange={(event) => {
+            this.setState({searchField:event.target.value})
+          }} />
           <h4>
-            {this.state.monsters.map(monster => (
+            {filteredMonsters.map((monster) => (
               <p key={monster.id}>{monster.name}</p>
             ))}
           </h4>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
         </header>
       </div>
     );
