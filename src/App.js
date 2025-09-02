@@ -1,4 +1,5 @@
 import { Component } from "react";
+import CardList from "./components/card-list/card-list.component.jsx";
 
 import "./App.css";
 
@@ -38,6 +39,8 @@ class App extends Component {
               <p key={monster.id}>{monster.name}</p>
             ))}
           </h4>
+
+          <CardList />
         </header>
       </div>
     );
